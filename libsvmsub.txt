@@ -1,9 +1,8 @@
 
-
-# Use convert.c given in the libsvm site to convert CSV tables
+# Use the tool convert.c from libsvm site to convert CSV tables
 # for the data format used by libsvm (which essentially is suited
-# to store very sparse tables/matrices. Below the svm files are
-# already written in this format.
+# to store very sparse tables/matrices.) Below, the svm files are
+# already written in this libsvm format. (I use .libsvm type.)
 
 #####  NON SCALED DATA
 
@@ -15,7 +14,7 @@ Accuracy = 82.3793% (734/891) (classification)
 
 #####  NOW WE SCALE THE DATA
 
-# scales train data and save scale params in scalePars
+# scales training data and save scale params in scalePars
 svm-scale -s scalePars trainClean.svm > trainClean.svm.scale
 
 # scales test data with saved parameters
@@ -30,13 +29,13 @@ svm-train.exe -c 2 -g 2 -v 5 trainClean.svm.scale
 svm-train.exe -c 2 -g 2 trainClean.svm.scale
 
 # in error shrinks with scaled data
-svm-predict.exe trainClean.svm.scale trainClean.svm.scale.model aa
+svm-predict.exe trainClean.svm.scale trainClean.svm.scale.model predScaled1
 Accuracy = 86.1953% (768/891) (classification)
 
 # generate prediction file predScaled1
 # the -1's in predScaled1 must be converted to 0's before kaggle submission
 svm-predict.exe testClean.svm.scale trainClean.svm.scale.model predScaled1
 Accuracy = 33.7321% (141/418) (classification) 
-(this value is got with fake labels in the training table, so has no value)
+(this accuracy is got with fake labels in training table, so it has no meaning)
 
 =>  Kaggle my best: 0.77512
